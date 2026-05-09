@@ -11,7 +11,11 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
-const AUDIT_LOG = path.join(__dirname, '../../governance/audit-log.jsonl');
+// Resolve paths from project root (two levels up from templates/mediator/)
+// Override by setting GOVERNANCE_ROOT env var or passing options to createMediator()
+const PROJECT_ROOT = process.env.GOVERNANCE_ROOT || path.join(__dirname, '..', '..');
+const GOVERNANCE_DIR = path.join(PROJECT_ROOT, 'governance');
+const AUDIT_LOG = path.join(GOVERNANCE_DIR, 'audit-log.jsonl');
 
 // ---------------------------------------------------------------------------
 // Guard base class — implement check() in each subclass
@@ -30,11 +34,14 @@ class Guard {
 // ---------------------------------------------------------------------------
 
 class ArmedStateGuard extends Guard {
+  constructor(stateFile) {
+    super();
+    this.stateFile = stateFile || path.join(GOVERNANCE_DIR, 'system_state.json');
+  }
+
   async check(proposal) {
-    // Replace with your state-reading logic
-    const stateFile = path.join(__dirname, '../../governance/system_state.json');
     try {
-      const state = JSON.parse(fs.readFileSync(stateFile, 'utf8'));
+      const state = JSON.parse(fs.readFileSync(this.stateFile, 'utf8'));
       const armed = state.state === 'ARMED';
       return { passed: armed, reason: armed ? 'state=ARMED' : `state=${state.state} (must be ARMED)` };
     } catch {
@@ -188,17 +195,23 @@ class ExecutionMediator {
 // Factory — wire up your domain-specific guards and snapshot logic here
 // ---------------------------------------------------------------------------
 
-function createMediator({ protectedPaths = [], dbCheckFn = async () => true } = {}) {
+function createMediator({
+  projectRoot = PROJECT_ROOT,
+  protectedPaths = [],
+  dbCheckFn = async () => true
+} = {}) {
+  const govDir = path.join(projectRoot, 'governance');
+  const stateFile = path.join(govDir, 'system_state.json');
+
   return new ExecutionMediator({
     guards: [
-      new ArmedStateGuard(),
+      new ArmedStateGuard(stateFile),
       new CriticalFileGuard(protectedPaths),
       new PlanApprovalGuard(),
       new DbConnectionGuard(dbCheckFn)
     ],
     snapshotFn: async () => {
       // Replace with your actual state snapshot logic
-      const stateFile = path.join(__dirname, '../../governance/system_state.json');
       return JSON.parse(fs.readFileSync(stateFile, 'utf8'));
     },
     validatePostExecFn: async (before, after, result) => {
@@ -207,7 +220,6 @@ function createMediator({ protectedPaths = [], dbCheckFn = async () => true } = 
     },
     rollbackFn: async (beforeState) => {
       // Replace with your actual rollback logic
-      const stateFile = path.join(__dirname, '../../governance/system_state.json');
       fs.writeFileSync(stateFile, JSON.stringify(beforeState, null, 2));
     }
   });

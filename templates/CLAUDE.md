@@ -2,7 +2,7 @@
 
 ## MANDATORY SESSION START
 
-- [ ] Read `governance/system-state.md` — confirm current operational state
+- [ ] Read `governance/system-state.json` — confirm current operational state
 - [ ] Check `governance/runtime-contract.md` — review what is and isn't allowed
 - [ ] Verify system is in a SAFE state before making any changes
 - [ ] Do not execute anything until state is confirmed
@@ -88,11 +88,24 @@ If something breaks or behaves unexpectedly:
 
 ## Audit
 
-All significant changes should be logged in `governance/audit-log.md` with:
+All significant changes should be logged in `governance/audit-log.jsonl` with:
 - What changed
 - Why it changed
 - What state the system was in before and after
 - Who approved the change
+
+---
+
+## Session Hygiene
+
+| Action | When | Why |
+|--------|------|-----|
+| `/clear` | Context at 20–25% | Fresh start before bloat |
+| `/compact` | Context at 60–75% | Compress, continue same task |
+| Ask "What am I not thinking about?" | Before any execution | Catches blind spots |
+| Read `governance/system-state.json` | Every session start | Never assume prior state |
+
+**Never carry forward unvalidated assumptions from a previous session. Always reconcile.**
 
 ---
 
@@ -101,4 +114,4 @@ All significant changes should be logged in `governance/audit-log.md` with:
 - `governance/runtime-contract.md` — full behavioral boundaries
 - `governance/state-machine.md` — state transition rules
 - `governance/failure-doctrine.md` — recovery procedures
-- `governance/audit-log.md` — change history
+- `governance/audit-log.jsonl` — change history (append-only, do not edit)

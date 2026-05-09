@@ -1,0 +1,22 @@
+{
+  "name": "claude-code-governance",
+  "version": "0.1.0",
+  "description": "Persistent execution governance layer for Claude Code — deterministic, auditable AI behavior in operational systems.",
+  "main": "templates/mediator/execution-mediator.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "claude-code",
+    "ai-governance",
+    "llm-safety",
+    "audit",
+    "state-machine"
+  ],
+  "author": "followerofheru-code",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {}
+}

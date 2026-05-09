@@ -1,0 +1,19 @@
+# Governance runtime files — never commit
+governance/system_state.json
+governance/audit-log.jsonl
+governance/*.secrets.*
+
+# Credentials
+.env
+*.env.*
+*_config.json
+secrets/
+credentials/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db

@@ -10,6 +10,21 @@ Installing a governance system inside your repository that makes Claude Code pre
 
 ---
 
+## Before the Session — What You Need Ready
+
+Send these before we start. Gaps here eat into session time.
+
+- [ ] Repo access (read/write) — local clone or GitHub access
+- [ ] A one-sentence description of what your system does
+- [ ] List of the 3–5 files Claude should never touch without approval
+- [ ] Any external APIs or services your system calls with real consequences
+- [ ] Your biggest AI reliability complaint — what went wrong that brought you here
+- [ ] One person on the call who understands the system architecture end-to-end
+
+**Optional but useful:** existing CLAUDE.md, any prior AI session logs showing the problem behavior.
+
+---
+
 ## The 4-Step Process
 
 ### Step 1 — System Review (45–60 min)

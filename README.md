@@ -4,6 +4,19 @@
 
 ---
 
+## Contents
+
+- [The Problem](#the-problem)
+- [The Solution](#the-solution)
+- [What Gets Installed](#what-gets-installed)
+- [Core Operating Principle](#core-operating-principle)
+- [Use Cases](#use-cases)
+- [Quick Start](#quick-start-self-install)
+- [Consulting Engagement](#pricing)
+- [Repository Structure](#repository-structure)
+
+---
+
 ## The Problem
 
 AI coding assistants are powerful but stateless. Every session resets context — rules must be re-explained, architectural constraints drift, and there's no audit trail of decisions.
@@ -110,15 +123,14 @@ It does **not** replace your application logic, implement your business workflow
 
 ```
 templates/
-  CLAUDE.md                     — Governance CLAUDE.md template
+  CLAUDE.md                     — Drop-in governance CLAUDE.md
   governance/
     state-machine.md            — State machine spec
     runtime-contract.md         — Behavioral boundaries
     failure-doctrine.md         — Recovery behavior
     watchdog-spec.md            — Invariant monitoring
   mediator/
-    execution-mediator.js       — Execution mediator scaffold
-    guards/                     — Modular guard implementations
+    execution-mediator.js       — Execution mediator scaffold (configurable)
 docs/
   onboarding-guide.md           — Client onboarding process
   onboarding-questionnaire.md   — Domain customization questions
