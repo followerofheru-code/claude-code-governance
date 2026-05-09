@@ -203,12 +203,17 @@ function createMediator({
   const govDir = path.join(projectRoot, 'governance');
   const stateFile = path.join(govDir, 'system_state.json');
 
+  // Base factory includes 4 universal guards.
+  // Add a domain-specific RiskLogicGuard here — it should call your risk module
+  // (e.g., shared/risk_module.js in a trading system) and return { passed, reason }.
+  // See docs/execution-mediator-spec.md for the full 5-guard reference design.
   return new ExecutionMediator({
     guards: [
       new ArmedStateGuard(stateFile),
       new CriticalFileGuard(protectedPaths),
       new PlanApprovalGuard(),
       new DbConnectionGuard(dbCheckFn)
+      // new RiskLogicGuard(yourRiskModule)  ← add your domain risk guard here
     ],
     snapshotFn: async () => {
       // Replace with your actual state snapshot logic
